@@ -20,53 +20,54 @@
         var agentes = ['ALCIDES', 'ALEJANDRO', 'ALFREDO', 'ANGEL', 'BRAYAN', 'CAMILA', 'CRISTIAN', 'DANIEL EIZAGA', 'DANIEL SINESTERRA', 'DANIELA', 'DARVIN', 'DAVID', 'EDUARDO', 'EMILY', 'FERNANDO', 'FREDDY', 'GABRIEL', 'GIOVANNI HUERTAS', 'GIOVANNI MARQUEZ', 'GISELLE', 'ISAAC', 'JAVIER', 'JOCELYN', 'JOHAN', 'JORGE', 'JUAN', 'JULIO', 'LESLYE', 'NELSON', 'PAMELA', 'PAULA', 'PEDRO', 'ROGER', 'ROY', 'TITO', 'VALENTINA'];//LISTA DE AGENTES
 
         function dividir(matrix) {
-            console.log(matrix);
-            var limite = Math.floor(matrix.length/agentes.length)+1;
-            //console.log(limite);
-            var tempmax = [];
-            var postemp = 0;
-            var allmatx = [];
-            var amc = 0;
-            var matxclr = [];
+            
+            var cuentas = matrix.length/agentes.length;
+            var round = Math.floor(cuentas);
+            var matrixs = [];
+            var tempmtx = [];
+            var limite = 0;
+            var contro = 1;
             var i = 0;
-            var maxresta = [];
-            var contador = 0;
-            var cresto = 0;
-            while (i < matrix.length) {
-                if (contador < agentes.length) {
-                    if (postemp < limite) {
-                        if (postemp == 0) {
-                            tempmax[postemp] = [ "Shaw Account", "Balance", "Amount Due", "PTP Status", "Buyer", "State", "Home Phone" , "Other Phone" , "Cell Phone", "DPD" , "Ext Eligibility Flag"];
-                            postemp++;
-                        } else {
-                            tempmax[postemp] = matrix[i];
-                            postemp++;
-                            i++;
-                        }
-                    }else{
-                        postemp = 0;
-                        allmatx [amc]= tempmax;
-                        amc++;
-                        tempmax = matxclr;
-                        contador++;
+            var contmatrix = 0;
+            var limiteAgente = 0;
+            while (i < matrix.length && limiteAgente < agentes.length) {
+                if (limite < (round + 1)) {
+                    if (limite == 0) {
+                        tempmtx[0] = [ "Shaw Account", "Balance", "Amount Due", "PTP Status", "Buyer", "State", "Home Phone" , "Other Phone" , "Cell Phone", "DPD" , "Ext Eligibility Flag"];
+                        limite++;
+                    } else {
+                        tempmtx[contro] = matrix[i];
+                        contro++;
+                        limite++;
+                        i++;
                     }
-                } else {
-                    //console.log(cresto)
-                    maxresta[cresto] = matrix[i];
-                    cresto++;
-                    i++;
+                }else{
+                    contro = 1;
+                    limite = 0;
+                    matrixs[contmatrix] = tempmtx;
+                    var clear = [];
+                    tempmtx = clear;
+                    contmatrix++;
+                    limiteAgente++;
                 }
-                    
-                
             }
-            //console.log(allmatx);
+            //console.log(matrixs);
+            var sobrantes = [];
+            var psob = round*agentes.length;
+            contmatrix = 0;
+            //console.log(matrix[psob]);
+            for (var i = psob; i < matrix.length; i++) {
+                sobrantes[contmatrix] = matrix[i];
+                contmatrix++;
+            }
+            //console.log(sobrantes);
+            for (var i = 0; i < sobrantes.length; i++) {
+                var tempmax = matrixs[i];
+                tempmax[tempmax.length] = sobrantes[i];
 
-            for (var i = 0; i < maxresta.length; i++) {
-                var cMax = allmatx[i];
-                cMax[cMax.length] = maxresta[i]
             }
-            //console.log(allmatx);
-            //console.log(limite+ ' ' + agentes.length +' '+matrix.length);
+            create(matrixs);/**/
+
         }
         function create(matrix) {
 
@@ -83,37 +84,12 @@
             
             XLSX.utils.book_append_sheet(wb, ws, ws_name);//agrega la hoja al libro
 
-            
-
-            var cantidad = Math.ceil(matrix.length/agentes.length);
-            //console.log(cantidad +' '+ matrix.length+ ' '+agentes.length);
-            var maxmatrix = [];
-            var jj = 0;
-            var jmax = 0;
-            var tempmax = [];
-            var clear = [];
-            for (var i = 0; i < matrix.length; i++) {
-
-                tempmax[jj+1] = matrix[i]
-                jj++;
-                if (jj==cantidad) {
-                    jj=0;
-                    tempmax[0] = [ "Shaw Account", "Balance", "Amount Due", "PTP Status", "Buyer", "State", "Home Phone" , "Other Phone" , "Cell Phone", "DPD" , "Ext Eligibility Flag"];
-                    maxmatrix[jmax] = tempmax;
-                    tempmax = clear;
-                    jmax++
-                }
-            }
-            console.log(maxmatrix.length+' '+agentes.length);
-            console.log(maxmatrix);
-
-
-            for (var i = 0; i < maxmatrix.length; i++) {
+            for (var i = 0; i < agentes.length; i++) {
                 
                 
                 ws_name = agentes[i];
                 //ws = XLSX.utils.aoa_to_sheet(ws_data);//Agrega el dato a la hoja
-                ws_data2 = maxmatrix[i];
+                ws_data2 = matrix[i];
                 ws = XLSX.utils.aoa_to_sheet(ws_data2);
 
                 XLSX.utils.book_append_sheet(wb, ws, ws_name);//Agrega la hoja al libro
@@ -169,14 +145,15 @@
     }
     
     function ProcessExcel(data) {
-        var canti = document.getElementById('cantidad').value;
+        var canti = parseInt(document.getElementById('cantidad').value,10);
         //Read the Excel File data.
         var workbook = XLSX.read(data, {
             type: 'binary'
         });
 
         var worksheet = workbook.Sheets[workbook.SheetNames[0]];// hoja de las outbounds, esta selecciona la primera hojda dado el 0
-        var fin = 100 ;//Cantidad de clientes a llamar
+        var fin = canti + 11 ;//Cantidad de clientes a llamar
+        alert(fin);
         var cellMatrix = []; //matris con la lista de clientes para poder asignar los a otra lista
         var paid = false;
         var cnt = 0;//ubicador en la matris
