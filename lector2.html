@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <input type="file" id="fileUpload" />
+    <input type="button" id="upload" value="Upload" onclick="Upload()" />
+    <input type="button" id="test" value="test" />
+    <input type="text" id="cantidad">
+    <hr />
+    <div id="dvExcel"></div>
+
+                            
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+    <script type="text/javascript">
+        var columnas = ['C','E','F','G','H','J','L','M','N','O','P']; //vector de las columnas usadas en la lista para poder hacer el sorting
+        var agentes = ['ALCIDES', 'ALEJANDRO', 'ALFREDO', 'ANGEL', 'BRAYAN', 'CAMILA', 'CRISTIAN', 'DANIEL EIZAGA', 'DANIEL SINESTERRA', 'DANIELA', 'DARVIN', 'DAVID', 'EDUARDO', 'EMILY', 'FERNANDO', 'FREDDY', 'GABRIEL', 'GIOVANNI HUERTAS', 'GIOVANNI MARQUEZ', 'GISELLE', 'ISAAC', 'JAVIER', 'JOCELYN', 'JOHAN', 'JORGE', 'JUAN', 'JULIO', 'LESLYE', 'NELSON', 'PAMELA', 'PAULA', 'PEDRO', 'ROGER', 'ROY', 'TITO', 'VALENTINA'];//LISTA DE AGENTES
+
+        function dividir(matrix) {
+            
+            var cuentas = matrix.length/agentes.length;
+            var round = Math.floor(cuentas);
+            var matrixs = [];
+            var tempmtx = [];
+            var limite = 0;
+            var contro = 1;
+            var i = 0;
+            var contmatrix = 0;
+            var limiteAgente = 0;
+            while (i < matrix.length && limiteAgente < agentes.length) {
+                if (limite < (round + 1)) {
+                    if (limite == 0) {
+                        tempmtx[0] = [ "Shaw Account", "Balance", "Amount Due", "PTP Status", "Buyer", "State", "Home Phone" , "Other Phone" , "Cell Phone", "DPD" , "Ext Eligibility Flag"];
+                        limite++;
+                    } else {
+                        tempmtx[contro] = matrix[i];
+                        contro++;
+                        limite++;
+                        i++;
+                    }
+                }else{
+                    contro = 1;
+                    limite = 0;
+                    matrixs[contmatrix] = tempmtx;
+                    var clear = [];
+                    tempmtx = clear;
+                    contmatrix++;
+                    limiteAgente++;
+                }
+            }
+            //console.log(matrixs);
+            var sobrantes = [];
+            var psob = round*agentes.length;
+            contmatrix = 0;
+            //console.log(matrix[psob]);
+            for (var i = psob; i < matrix.length; i++) {
+                sobrantes[contmatrix] = matrix[i];
+                contmatrix++;
+            }
+            //console.log(sobrantes);
+            for (var i = 0; i < sobrantes.length; i++) {
+                var tempmax = matrixs[i];
+                tempmax[tempmax.length] = sobrantes[i];
+
+            }
+            create(matrixs);/**/
+
+        }
+        function create(matrix) {
+
+            var wb = XLSX.utils.book_new();//Crea el libro
+            var ws_name = "info";//Da el nombre de la primera hoja
+            var ws_data = [
+                [],
+                [],
+                [],
+                ['' , 'BUSQUEN SU NOMBRE EN LOS TABS DE ABAJO.'],
+                ['' , '2 attempts']
+            ];//info a asignar
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);//agrega los datos a la hoja
+            
+            XLSX.utils.book_append_sheet(wb, ws, ws_name);//agrega la hoja al libro
+
+            for (var i = 0; i < agentes.length; i++) {
+                
+                
+                ws_name = agentes[i];
+                //ws = XLSX.utils.aoa_to_sheet(ws_data);//Agrega el dato a la hoja
+                ws_data2 = matrix[i];
+                ws = XLSX.utils.aoa_to_sheet(ws_data2);
+
+                XLSX.utils.book_append_sheet(wb, ws, ws_name);//Agrega la hoja al libro
+
+            }
+                
+
+
+            XLSX.writeFile(wb, 'OB DISTRO.xlsx');//crea el libro*/
+
+            
+        }
+
+
+
+
+    function Upload() {
+        //Reference the FileUpload element.
+        var fileUpload = document.getElementById("fileUpload");
+ 
+        //Validate whether File is valid Excel file.
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+        if (regex.test(fileUpload.value.toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+ 
+                //For Browsers other than IE.
+                if (reader.readAsBinaryString) {
+                    reader.onload = function (e) {
+                        //alert('Archivo de excel cargado exitosamente');
+                        ProcessExcel(e.target.result);
+                    };
+                    reader.readAsBinaryString(fileUpload.files[0]);
+                } else {
+                    //For IE Browser.
+                    reader.onload = function (e) {
+                        var data = "";
+                        var bytes = new Uint8Array(e.target.result);
+                        for (var i = 0; i < bytes.byteLength; i++) {
+                            data += String.fromCharCode(bytes[i]);
+                        }
+                        //alert('Archivo de excel cargado exitosamente');
+                        ProcessExcel(data);
+                    };
+                    reader.readAsArrayBuffer(fileUpload.files[0]);
+                }
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid Excel file.");
+        }
+    }
+    
+    function ProcessExcel(data) {
+        var canti = parseInt(document.getElementById('cantidad').value,10);
+        //Read the Excel File data.
+        var workbook = XLSX.read(data, {
+            type: 'binary'
+        });
+
+        var worksheet = workbook.Sheets[workbook.SheetNames[0]];// hoja de las outbounds, esta selecciona la primera hojda dado el 0
+        var fin = canti + 11;//Cantidad de clientes a llamar
+        var cellMatrix = []; //matris con la lista de clientes para poder asignar los a otra lista
+        var paid = false;
+        var cnt = 0;//ubicador en la matris
+        var orMatrx = [];
+        var orMatrxA = [];
+        var orMatrxB = [];
+
+        for (var i = 0; i < canti; i++) {
+            var rows = [];
+            for (var j = 0; j < columnas.length; j++) {
+                var posn = columnas[j]+(i+11).toString();//posicion de la columna
+
+                rows[j] = (worksheet[posn] ? worksheet[posn].v : undefined);
+            }
+            orMatrx[i] = rows;
+        }
+
+        var cdma = 0;
+        for (var i = 0; i < orMatrx.length; i++) {
+            var rowsA = orMatrx[i];
+            if (rowsA[1].toString() != '0') {
+                orMatrxA[cdma] = rowsA;
+                cdma++;
+            }
+            
+        }
+
+        //console.log(orMatrxA);
+
+
+        var cdmb = 0;
+        for (var i = 0; i < orMatrxA.length; i++) {
+            var rowsB = orMatrxA[i];
+            if (rowsB[3] == undefined) {
+                orMatrxB[cdmb] = rowsB;
+                cdmb++;
+            }else if (rowsB[3].toString() != 'O') {
+                orMatrxB[cdmb] = rowsB;
+                cdmb++;
+            }
+            
+        }
+        //console.log(orMatrxB);
+        dividir(cellMatrix);
+        /*
+
+        for (var j = 0; j < fin-11; j++) {// inicializado en 11 dado el formato del DYNALIST que empieza la primera cuenta en la celda #11
+            var rows = []; //Filas de la matris
+            for (var i = 0; i < columnas.length; i++) {//recorre la columna
+                //console.log((worksheet['G'+(j+11).toString()] ? worksheet['G'+(j+11).toString()].v : undefined) != "O");
+                var unnn = (worksheet['E'+(j+11).toString()] ? worksheet['E'+(j+11).toString()].v : undefined).toString(); 
+                var dsss = (worksheet['G'+(j+11).toString()] ? worksheet['G'+(j+11).toString()].v : undefined);
+                                
+                if (unnn.localeCompare("0") == -1) {//verifica si la cuenta no esta paid O si no tiene una PTP abierta, si no es el caso
+                    var posn = columnas[i]+(j+11).toString();//posicion de la columna
+                    if ((worksheet[posn] ? worksheet[posn].v : undefined) == undefined) {//Cuando hay un espacio en blanco retorna 'undefinded'
+                        rows[i] = "";//asi que si retorna esto, sera cambiado al espacio en blanco
+                    } else {//en caos de que no haya un 'undefinded'
+                        if (i == 0) {//verifica que sea la primera casilla
+                            rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined).substr(9, 7);//en caso de serlo, saca el numero de cuenta
+                        } else {//en caso de no ser
+                            rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined);//simplemente la agrega
+                        }
+                    }
+                } else if (dsss != undefined) {
+                    if (dsss.localeCompare("O") == -1) {
+                        var posn = columnas[i]+(j+11).toString();//posicion de la columna
+                        if ((worksheet[posn] ? worksheet[posn].v : undefined) == undefined) {//Cuando hay un espacio en blanco retorna 'undefinded'
+                            rows[i] = "";//asi que si retorna esto, sera cambiado al espacio en blanco
+                        } else {//en caos de que no haya un 'undefinded'
+                            if (i == 0) {//verifica que sea la primera casilla
+                                rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined).substr(9, 7);//en caso de serlo, saca el numero de cuenta
+                            } else {//en caso de no ser
+                                rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined);//simplemente la agrega
+                            }
+                        }
+                    }
+                        
+                } else {//en caso de que la cuenta este paid o haya una PTP
+                    paid = true//se asigna la variable controladora para saltar a la siguiente columna
+                    i = columnas.length;//se iguala i al tamaño del vector para que salga del ciclo
+                }
+
+                
+            }
+            //console.log(paid);
+            if (!paid) {//en caso de no ser ser pagada,
+                cellMatrix[cnt] = rows;//se agrega el row a la matris
+                //console.log('paid');
+                cnt++;
+            }else{
+                //console.log('not paid');
+            }
+            paid = false;
+        }
+        dividir(cellMatrix);
+        //console.log(cellMatrix[0]);
+
+
+        //alert(reducir(cell));*/
+    }
+</script>
+
+</body>
+</html>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
