@@ -2,13 +2,98 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
     <input type="file" id="fileUpload" />
     <input type="button" id="upload" value="Upload" onclick="Upload()" />
-    <input type="button" id="test" value="test" />
+    
     <input type="text" id="cantidad">
-    <hr />
+    <input type="button" id="test" value="Seleccionar todes" onclick="selectallagents(0)"/>
+    <input type="button" id="test" value="MACA TEAM" onclick="selectallagents(1)"/>
+    <input type="button" id="test" value="EL IVAN TEAM" onclick="selectallagents(2)"/>
+    <input type="button" id="test" value="CLAU TEAM" onclick="selectallagents(3)"/>
+    <input type="button" id="test" value="SABADO MACA/IVAN" onclick="selectallagents(4)"/>
+    <input type="button" id="test" value="SABADO CLAU/IVAN" onclick="selectallagents(5)"/>
+    <hr/>
+
+
+    <div class="border">
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="ALCIDES" >ALCIDES
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="ALEJANDRO" >ALEJANDRO
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="ALFREDO" >ALFREDO
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="ANDREA" >ANDREA 
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="ANGEL" >ANGEL 
+    </div>
+    <div class="border">
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="BRAYAN" >BRAYAN 
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="CAMILA" >CAMILA
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="CRISTIAN" >CRISTIAN 
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="DANIEL EIZAGA" >DANIEL EIZAGA
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="DANIEL SINESTERRA" >DANIEL SINESTERRA
+        <input class="agntes IVAN SAB1 SAB2" tiposabado="" type="checkbox" name="DANIELA" >DANIELA
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="DARVIN" >DARVIN
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="DAVID" >DAVID 
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="EMILY" >EMILY 
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="FERNANDO" >FERNANDO
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="FREDDY" >FREDDY 
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="GABRIEL" >GABRIEL
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="GIOVANNI HUERTAS" >GIOVANNI HUERTAS
+        <input class="agntes IVAN SAB2" tiposabado="" type="checkbox" name="GIOVANNI MARQUEZ" >GIOVANNI MARQUEZ
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="GISELLE" >GISELLE 
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="ISAAC" >ISAAC 
+    </div>
+    <div class="border">
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="JAVIER" >JAVIER
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="JOCELYN" >JOCELYN
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="JOHAN" >JOHAN
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="JORGE" >JORGE
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="JUAN" >JUAN
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="JULIO" >JULIO 
+    </div>
+    <div class="border">
+        <input class="agntes IVAN SAB2" tiposabado="" type="checkbox" name="LESLYE" >LESLYE 
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="LILIAM" >LILIAM 
+    </div>
+    <div class="border">
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="NELSON" >NELSON 
+        
+    </div>
+    <div class="border">
+        <input class="agntes IVAN SAB2" tiposabado="" type="checkbox" name="PAMELA THORN" >PAMELA 
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="PAULA" >PAULA THORN
+    </div>
+    <div class="border">
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="RAME" >RAME
+        <input class="agntes CLAU SAB2" tiposabado="" type="checkbox" name="ROGER" >ROGER
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="ROY" >ROY 
+    </div>
+    <div class="border">
+        <input class="agntes IVAN SAB1" tiposabado="" type="checkbox" name="TITO" >TITO 
+    </div>
+    <div class="border">
+        <input class="agntes MACA SAB1" tiposabado="" type="checkbox" name="VALENTINA" >VALENTINA
+    </div>
+        
+        
+        
+        
+        
     <div id="dvExcel"></div>
 
                             
@@ -16,8 +101,68 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
     <script type="text/javascript">
+        var agentes = [];//LISTA DE AGENTES
+        function deseleccionar() {
+            var listaAgentes = document.getElementsByClassName("agntes");
+            for (var i = 0; i < listaAgentes.length; i++) {
+                listaAgentes[i].checked = false;
+            }
+        }
+
+
+        function selectallagents(caso) {
+            
+                
+            if (caso == 0) {
+                var listaAgentes = document.getElementsByClassName("agntes");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    listaAgentes[i].checked = true;
+                }
+            }else if (caso == 1) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("MACA");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    console.log(listaAgentes[i].checked);
+                    listaAgentes[i].checked = true;
+                }
+            } else if (caso == 2) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("IVAN");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    console.log(listaAgentes[i].checked);
+                    listaAgentes[i].checked = true;
+                }
+            } else if (caso == 3) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("CLAU");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    console.log(listaAgentes[i].checked);
+                    listaAgentes[i].checked = true;
+                }
+            } else if (caso == 4) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("SAB1");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    console.log(listaAgentes[i].checked);
+                    listaAgentes[i].checked = true;
+                }
+            } else {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("SAB2");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    console.log(listaAgentes[i].checked);
+                    listaAgentes[i].checked = true;
+                }
+            }
+                
+        }
+
+
+
+
+
         var columnas = ['C','E','F','G','H','J','L','M','N','O','P']; //vector de las columnas usadas en la lista para poder hacer el sorting
-        var agentes = ['ALCIDES', 'ALEJANDRO', 'ALFREDO', 'ANGEL', 'BRAYAN', 'CAMILA', 'CRISTIAN', 'DANIEL EIZAGA', 'DANIEL SINESTERRA', 'DANIELA', 'DARVIN', 'DAVID', 'EDUARDO', 'EMILY', 'FERNANDO', 'FREDDY', 'GABRIEL', 'GIOVANNI HUERTAS', 'GIOVANNI MARQUEZ', 'GISELLE', 'ISAAC', 'JAVIER', 'JOCELYN', 'JOHAN', 'JORGE', 'JUAN', 'JULIO', 'LESLYE', 'NELSON', 'PAMELA', 'PAULA', 'PEDRO', 'ROGER', 'ROY', 'TITO', 'VALENTINA'];//LISTA DE AGENTES
+        
 
         function dividir(matrix) {
             
@@ -109,6 +254,14 @@
     function Upload() {
         //Reference the FileUpload element.
         var fileUpload = document.getElementById("fileUpload");
+        var agentes2 = document.getElementsByClassName('agntes');
+        var agnc = 0;
+        for (var i = 0; i < agentes2.length; i++) {
+            if (agentes2[i].checked) {
+                agentes[agnc] = agentes2[i].name;
+                agnc++
+            } 
+        }
  
         //Validate whether File is valid Excel file.
         var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
@@ -196,64 +349,9 @@
             
         }
         //console.log(orMatrxB);
-        dividir(cellMatrix);
-        /*
-
-        for (var j = 0; j < fin-11; j++) {// inicializado en 11 dado el formato del DYNALIST que empieza la primera cuenta en la celda #11
-            var rows = []; //Filas de la matris
-            for (var i = 0; i < columnas.length; i++) {//recorre la columna
-                //console.log((worksheet['G'+(j+11).toString()] ? worksheet['G'+(j+11).toString()].v : undefined) != "O");
-                var unnn = (worksheet['E'+(j+11).toString()] ? worksheet['E'+(j+11).toString()].v : undefined).toString(); 
-                var dsss = (worksheet['G'+(j+11).toString()] ? worksheet['G'+(j+11).toString()].v : undefined);
-                                
-                if (unnn.localeCompare("0") == -1) {//verifica si la cuenta no esta paid O si no tiene una PTP abierta, si no es el caso
-                    var posn = columnas[i]+(j+11).toString();//posicion de la columna
-                    if ((worksheet[posn] ? worksheet[posn].v : undefined) == undefined) {//Cuando hay un espacio en blanco retorna 'undefinded'
-                        rows[i] = "";//asi que si retorna esto, sera cambiado al espacio en blanco
-                    } else {//en caos de que no haya un 'undefinded'
-                        if (i == 0) {//verifica que sea la primera casilla
-                            rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined).substr(9, 7);//en caso de serlo, saca el numero de cuenta
-                        } else {//en caso de no ser
-                            rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined);//simplemente la agrega
-                        }
-                    }
-                } else if (dsss != undefined) {
-                    if (dsss.localeCompare("O") == -1) {
-                        var posn = columnas[i]+(j+11).toString();//posicion de la columna
-                        if ((worksheet[posn] ? worksheet[posn].v : undefined) == undefined) {//Cuando hay un espacio en blanco retorna 'undefinded'
-                            rows[i] = "";//asi que si retorna esto, sera cambiado al espacio en blanco
-                        } else {//en caos de que no haya un 'undefinded'
-                            if (i == 0) {//verifica que sea la primera casilla
-                                rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined).substr(9, 7);//en caso de serlo, saca el numero de cuenta
-                            } else {//en caso de no ser
-                                rows[i] = (worksheet[posn] ? worksheet[posn].v : undefined);//simplemente la agrega
-                            }
-                        }
-                    }
-                        
-                } else {//en caso de que la cuenta este paid o haya una PTP
-                    paid = true//se asigna la variable controladora para saltar a la siguiente columna
-                    i = columnas.length;//se iguala i al tamaño del vector para que salga del ciclo
-                }
-
-                
-            }
-            //console.log(paid);
-            if (!paid) {//en caso de no ser ser pagada,
-                cellMatrix[cnt] = rows;//se agrega el row a la matris
-                //console.log('paid');
-                cnt++;
-            }else{
-                //console.log('not paid');
-            }
-            paid = false;
-        }
-        dividir(cellMatrix);
-        //console.log(cellMatrix[0]);
-
-
-        //alert(reducir(cell));*/
+        dividir(orMatrxB);
     }
+
 </script>
 
 </body>
