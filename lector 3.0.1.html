@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="col">
+        
+        
+        <form>
+            <div class="custom-file mb-3" style="display: inline-block; width: 50%;">
+                <input class="custom-file-input" type="file" id="customFile" />
+                <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+        </form>
+        <input class="btn border" type="button" id="showlist" value="Cargar" onclick="Upload()" />
+        <input class="btn border" type="button" id="createlist" value="Crear" onclick="ProcessExcel()" disabled="true"/>
+        <div id="cntcuentas" style="display: inline-block; padding-left: 15px;">cantidad de cuentas: </div>
+        <br><br>
+        <input type="button" id="test" class="btn btn-primary" value="Seleccionar todes" onclick="selectallagents(0)"/>
+        <input type="button" id="test" class="btn btn-success" value="MACA TEAM" onclick="selectallagents(1)"/>
+        <input type="button" id="test" class="btn btn-success" value="CLAU TEAM" onclick="selectallagents(2)"/>
+        <input type="button" id="test" class="btn btn-info" value="SABADO MACA" onclick="selectallagents(3)"/>
+        <input type="button" id="test" class="btn btn-info" value="SABADO CLAU" onclick="selectallagents(4)"/>
+        <hr/>
+    </div>
+    <button data-toggle="collapse" data-target="#agentes" class="btn btn-primary ml-5 ">MOSTRAR/OCULTAR AGENTES</button>
+    <button data-toggle="collapse" data-target="#lista" class="btn btn-primary ml-5 ">MOSTRAR/OCULTAR LISTA</button> <br><br>
+    <script>
+        var managers = [];
+        var agentes = ['ALBERTO','ALCIDES','ALEJANDRO','ALFREDO','ANDREA','ANGEL','BRAYAN','CAMILA','DANIEL EIZAGA','DANIEL SINESTERRA','DANIELA','DARVIN','DAVID','EMILY','FERNANDO','FREDDY','GABRIEL','GIOVANNI HUERTAS','GIOVANNI MARQUEZ','GISELLE','ISAAC','JAVIER','JESUS','JOCELYN','JOHAN ','JORGE ','JUAN','JULIO ','LESLYE','LILIAM','PAMELA THORN','PAULA','RAME','ROGER','ROY','TITO','VALENTINA']
+        var MACA = [];
+        var CLAU = [];
+        var opening = true;
+        var content = '';
+        for (var i = 0; i < agentes.length; i++) {
+            if (agentes[i].substring(0,1) == 'A') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('crea seccion a: '+  agentes[i]);
+                }else {
+                    console.log('agente a: '+  agentes[i]);
+                }
+                
+
+            } else if (agentes[i].substring(0,1) == 'B') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion a, crea seccion b: '+  agentes[i]);
+                }else {
+                    console.log('agente b: '+  agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'C') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('cierra seccion b, crea seccion c: '+  agentes[i]);
+                }else {
+                    console.log('agente c: '+  agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'D') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion c, crea seccion d: '+  agentes[i]);
+                }else {
+                    console.log('agente d: '+  agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'E') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('cierra seccion d, crea seccion e: '+  agentes[i]);
+                }else {
+                    console.log('agente e: '+  agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'F') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion e, crea seccion f: '+  agentes[i]);
+                }else {
+                    console.log('agente f: '+  agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'G') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('cierra seccion f, crea seccion g: '+  agentes[i]);
+                }else {
+                    console.log('agente g: '+  agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'I') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion g, crea seccion i: '+ agentes[i]);
+                }else {
+                    console.log('agente i: '+ agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'J') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('cierra seccion i, crea seccion j: '+ agentes[i]);
+                }else {
+                    console.log('agente j: '+ agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'L') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion j, crea seccion l: '+ agentes[i]);
+                }else {
+                    console.log('agente l: '+ agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'P') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('cierra seccion l, crea seccion p: '+ agentes[i]);
+                }else {
+                    console.log('agente p: '+ agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'R') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion p, crea seccion r: '+ agentes[i]);
+                }else {
+                    console.log('agente r: '+ agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'T') {
+                if (opening) {
+                    
+                    opening = false;
+                    console.log('cierra seccion r, crea seccion t: '+ agentes[i]);
+                }else {
+                    console.log('agente t: '+ agentes[i]);
+                }
+
+            } else if (agentes[i].substring(0,1) == 'V') {
+                if (!opening) {
+                    
+                    opening = true;
+                    console.log('cierra seccion t, crea seccion v: '+ agentes[i]);
+                }else {
+                    console.log('agente v: '+ agentes[i]);
+                }
+            } 
+            
+
+            //var line1 = '<div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="'+agntes MACA SAB1+'" type="checkbox" name="'+ALBERTO+'" ><label class="custom-control-label" for="'+VALENTINA+'">'+ALBERTO+'</div>'
+        }
+        '<div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="'++'" type="checkbox" name="'++'" ><label class="custom-control-label" for="'++'">'++</div>
+    </script>
+
+    <div class="col collapse show" id="agentes">
+        <div class="row border pl-2" id="A">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="ALBERTO" ><label class="custom-control-label" for="ALBERTO">ALBERTO</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="ALCIDES" ><label class="custom-control-label" for="ALCIDES">ALCIDES</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="ALEJANDRO" ><label class="custom-control-label" for="ALEJANDRO">ALEJANDRO</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1" type="checkbox" name="ALFREDO" ><label class="custom-control-label" for="ALFREDO">ALFREDO</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="ANDREA" ><label class="custom-control-label" for="ANDREA">ANDREA</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="ANGEL" ><label class="custom-control-label" for="ANGEL">ANGEL</div>
+        </div>
+        <div class="row border pl-2" id="B">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="BRAYAN" ><label class="custom-control-label" for="BRAYAN">BRAYAN</div>
+        </div>
+        <div class="row border pl-2" id="C">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="CAMILA" ><label class="custom-control-label" for="CAMILA">CAMILA</div>
+        </div>
+        <div class="row border pl-2" id="D">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="DANIEL EIZAGA" ><label class="custom-control-label" for="DANIEL EIZAGA">DANIEL EIZAGA</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1 SAB2" type="checkbox" name="DANIEL SINESTERRA" ><label class="custom-control-label" for="DANIEL SINESTERRA">DANIEL SINESTERRA</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1 SAB2" type="checkbox" name="DANIELA" ><label class="custom-control-label" for="DANIELA">DANIELA</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1" type="checkbox" name="DARVIN" ><label class="custom-control-label" for="DARVIN">DARVIN</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1" type="checkbox" name="DAVID" >DAVID</div>
+        </div> 
+        <div class="row border pl-2" id="E">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1 SAB2" type="checkbox" name="EMILY" >EMILY</div>
+        </div>
+        <div class="row border pl-2" id="F">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="FERNANDO" >FERNANDO</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="FREDDY" >FREDDY</div>
+        </div>
+        <div class="row border pl-2" id="G">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1 SAB2" type="checkbox" name="GABRIEL" ><label class="custom-control-label" for="GABRIEL">GABRIEL</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="GIOVANNI HUERTAS" ><label class="custom-control-label" for="GIOVANNI H">GIOVANNI H</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB2" type="checkbox" name="GIOVANNI MARQUEZ" ><label class="custom-control-label" for="GIOVANNI M">GIOVANNI M</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="GISELLE" ><label class="custom-control-label" for="GISELLE">GISELLE</div>
+        </div>
+        <div class="row border pl-2" id="I">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="ISAAC" ><label class="custom-control-label" for="ISAAC">ISAAC</div>
+        </div>
+        <div class="row border pl-2" id="J">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB1" type="checkbox" name="JAVIER" ><label class="custom-control-label" for="JAVIER">JAVIER</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="JESUS" ><label class="custom-control-label" for="JESUS">JESUS</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="JOCELYN" ><label class="custom-control-label" for="JOCELYN">JOCELYN</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="JOHAN" ><label class="custom-control-label" for="JOHAN">JOHAN</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="JORGE" ><label class="custom-control-label" for="JORGE">JORGE</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="JUAN" ><label class="custom-control-label" for="JUAN">JUAN</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="JULIO" ><label class="custom-control-label" for="JULIO">JULIO</div>
+        </div>
+        <div class="row border pl-2" id="L">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="LESLYE" ><label class="custom-control-label" for="LESLYE">LESLYE</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="LILIAM" ><label class="custom-control-label" for="LILIAM">LILIAM</div>
+        </div>
+        <div class="row border pl-2" id="P">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB2" type="checkbox" name="PAMELA" ><label class="custom-control-label" for="PAMELA">PAMELA</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="PAULA THORN" ><label class="custom-control-label" for="PAULA THORN">PAULA THORN</div>
+        </div>
+        <div class="row border pl-2" id="R">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="RAME" ><label class="custom-control-label" for="RAME">RAME</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes CLAU SAB2" type="checkbox" name="ROGER" ><label class="custom-control-label" for="ROGER">ROGER</div>
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MACA SAB1" type="checkbox" name="ROY" ><label class="custom-control-label" for="ROY">ROY</div>
+        </div>
+        <div class="row border pl-2" id="T">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="" class="agntes MARIA SAB1" type="checkbox" name="TITO" ><label class="custom-control-label" for="TITO">TITO</div>
+        </div>
+        <div class="row border pl-2" id="V">
+            <div class="col-2 custom-control-input" style="display: inline-block;"><input id="VALENTINA" class="agntes MACA SAB1" type="checkbox" name="VALENTINA" ><label class="custom-control-label" for="VALENTINA">VALENTINA</div>
+        </div>
+    </div>
+    <div id="lista" class="row mt-5 border"></div>
+                            
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+    
+    <script type="text/javascript">
+        var gwb;
+        var columnas = []; //vector de las columnas usadas en la lista para poder hacer el sorting
+        //Shaw Account    Balance   Amount Due    PTP Status  Name Key  State   Home Phone     Other Phone    Cell Phone  DPD    Ext Eligibility Flag  
+        var colstouse;
+        var colsNtUse;
+        var columnas2 = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+        var colselected = [];
+        var gobalData;
+        var agentes = [];//LISTA DE AGENTES
+        
+        function Upload() {
+            //Reference the FileUpload element.
+            var fileUpload = document.getElementById("customFile");
+            var agentes2 = document.getElementsByClassName('agntes');
+            var agnc = 0;
+            for (var i = 0; i < agentes2.length; i++) {
+                if (agentes2[i].checked) {
+                    agentes[agnc] = agentes2[i].name;
+                    agnc++
+                } 
+            }
+     
+            //Validate whether File is valid Excel file.
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+            if (regex.test(fileUpload.value.toLowerCase())) {
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+     
+                    //For Browsers other than IE.
+                    if (reader.readAsBinaryString) {
+                        reader.onload = function (e) {
+                            //alert('Archivo de excel cargado exitosamente');
+                            agregarlista(e.target.result);
+                            //ProcessExcel(e.target.result);
+                            
+                        };
+                        reader.readAsBinaryString(fileUpload.files[0]);
+                    } else {
+                        //For IE Browser.
+                        reader.onload = function (e) {
+                            var data = "";
+                            var bytes = new Uint8Array(e.target.result);
+                            for (var i = 0; i < bytes.byteLength; i++) {
+                                data += String.fromCharCode(bytes[i]);
+                            }
+                            agregarlista(data);
+                            //ProcessExcel(data);
+                            
+                        };
+                        reader.readAsArrayBuffer(fileUpload.files[0]);
+                    }
+                } else {
+                    alert("This browser does not support HTML5.");
+                }
+            } else {
+                alert("Please upload a valid Excel file.");
+            }
+        }
+
+        function agregarlista(data) {
+            gobalData = data;
+            
+            //Read the Excel File data.
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+
+            var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+            document.getElementById("cntcuentas").innerHTML += (worksheet['B4'] ? worksheet['B4'].v : undefined);
+            var rows = [];
+            var j = 0;
+            var count = 0;
+            var infodatos = [];//////////////////
+            while (j < columnas2.length) {
+                var posn = columnas2[j]+(10).toString();//posicion de la columna
+                var dato = (worksheet[posn] ? worksheet[posn].v : undefined);
+                if (dato != undefined) {
+                    rows[count] = "<div class=' col-1 ml-5 border border-success rounded' ><input type='checkbox' class='colstouse' checked='true' name='"+columnas2[j]+dato+"'>"+dato+"</div>"
+                    count++;
+                }
+                j++
+            }
+            for (var i = 0; i < rows.length; i++) {
+                document.getElementById("lista").innerHTML += rows[i]
+            }
+            document.getElementById("createlist").disabled = false;
+            colstouse = document.getElementsByClassName("colstouse");
+            getCols(colstouse);
+        }
+        function getCols(cols) {
+            var colcont = 0;    
+            var colcontNT = 0;
+            for (var i = 0; i < cols.length; i++) {
+                if (cols[i].checked) {
+                    columnas[colcont] = cols[i].name.substring(0,1);
+                    colselected[colcont] = cols[i].name.substring(1);
+                    colcont++;
+                }else{
+                    colsNtUse[colcontNT] = cols[i].name.substring(0,1);
+                }
+            }
+            
+        }
+        function ProcessExcel() {
+            console.log(columnas);
+            var data = gobalData;
+            
+            //Read the Excel File data.
+            var workbook = XLSX.read(data, {
+                type: 'binary'
+            });
+
+            var worksheet = workbook.Sheets[workbook.SheetNames[0]];// hoja de las outbounds, esta selecciona la primera hojda dado el 0
+            var numCuentas = parseInt((worksheet['B4'] ? worksheet['B4'].v : undefined));
+            var fin = numCuentas + 11;//Cantidad de clientes a llamar
+            var cellMatrix = []; //matris con la lista de clientes para poder asignar los a otra lista
+            var paid = false;
+            var cnt = 0;//ubicador en la matris
+            var orMatrx = [];
+            var orMatrxA = [];
+            var orMatrxB = [];
+            var orMatrxC = [];
+            console.log(columnas);
+            for (var i = 0; i < numCuentas; i++) {
+                
+                var rows = [];
+                for (var j = 0; j < columnas.length; j++) {
+                    var posn = columnas[j]+(i+11).toString();//posicion de la columna
+                    var objc = (worksheet[posn] ? worksheet[posn].v : undefined);
+                    if (objc == undefined) {
+                        rows[j] = ""; 
+                    } else {
+                        rows[j] = objc;    
+                    }                    
+                }
+                orMatrx[i] = rows;
+            }
+            
+            var cdma = 0;
+            for (var i = 0; i < orMatrx.length; i++) {
+                var rowsA = orMatrx[i];
+                if (rowsA[colselected.indexOf('Balance')].toString() != '0') {
+                    orMatrxA[cdma] = rowsA;
+                    cdma++;
+                }
+                
+            }
+            
+            var cdmb = 0;
+            for (var i = 0; i < orMatrxA.length; i++) {
+                var rowsB = orMatrxA[i];
+                if (rowsB[colselected.indexOf('PTP Status')].toString() != 'O') {
+                    orMatrxB[cdmb] = rowsB;
+                    cdmb++;
+                }
+            }
+            
+            for (var i = 0; i < orMatrxB.length; i++) {
+
+                var rowsC = orMatrxB[i];
+                var accnbr = rowsC[colselected.indexOf('Shaw Account')];
+                var acccl = accnbr.substring(9, 16);
+                orMatrxB[i][0] = acccl;
+            }
+            //console.log(orMatrxB);
+
+            //dividir(matrixFinal);/**************************************************/
+        }
+
+
+
+        function dividir(matrix) {
+            
+            var cuentas = matrix.length/agentes.length;
+            var round = Math.floor(cuentas);
+            var matrixs = [];
+            var tempmtx = [];
+            var limite = 0;
+            var contro = 1;
+            var i = 0;
+            var contmatrix = 0;
+            var limiteAgente = 0;
+            while (i < matrix.length && limiteAgente < agentes.length) {
+                if (limite < (round + 1)) {
+                    if (limite == 0) {
+                        tempmtx[0] = colselected;
+                        limite++;
+                    } else {
+                        tempmtx[contro] = matrix[i];
+                        contro++;
+                        limite++;
+                        i++;
+                    }
+                }else{
+                    contro = 1;
+                    limite = 0;
+                    matrixs[contmatrix] = tempmtx;
+                    var clear = [];
+                    tempmtx = clear;
+                    contmatrix++;
+                    limiteAgente++;
+                }
+            }
+            var sobrantes = [];
+            var psob = round*agentes.length;
+            contmatrix = 0;
+            for (var i = psob; i < matrix.length; i++) {
+                sobrantes[contmatrix] = matrix[i];
+                contmatrix++;
+            }
+            for (var i = 0; i < sobrantes.length; i++) {
+                var tempmax = matrixs[i];
+                tempmax[tempmax.length] = sobrantes[i];
+
+            }
+            create(matrixs);/***************************/
+
+        }
+        function create(matrix) {
+
+            var wb = XLSX.utils.book_new();//Crea el libro
+            var ws_name = "info";//Da el nombre de la primera hoja
+            var ws_data = [
+                [],
+                [],
+                [],
+                ['' , 'BUSQUEN SU NOMBRE EN LOS TABS DE ABAJO.'],
+                ['' , '2 attempts']
+            ];//info a asignar
+            var ws = XLSX.utils.aoa_to_sheet(ws_data);//agrega los datos a la hoja
+            
+            XLSX.utils.book_append_sheet(wb, ws, ws_name);//agrega la hoja al libro
+
+            for (var i = 0; i < agentes.length; i++) {
+                ws_name = agentes[i];
+                //ws = XLSX.utils.aoa_to_sheet(ws_data);//Agrega el dato a la hoja
+                ws_data2 = matrix[i];
+                ws = XLSX.utils.aoa_to_sheet(ws_data2);//********
+                XLSX.utils.book_append_sheet(wb, ws, ws_name);//Agrega la hoja al libro
+            }
+            gwb = wb;
+            //crearlibro()
+
+        }
+        function crearlibro() {
+            XLSX.writeFile(gwb, 'OB DISTRO.xlsx');//crea el libro*/
+        }
+
+
+
+
+
+
+
+
+
+        
+        
+
+        
+
+        
+        function deseleccionar() {
+            var listaAgentes = document.getElementsByClassName("agntes");
+            for (var i = 0; i < listaAgentes.length; i++) {
+                listaAgentes[i].checked = false;
+            }
+        }
+
+
+        function selectallagents(caso) {
+            
+                
+            if (caso == 0) {
+                var listaAgentes = document.getElementsByClassName("agntes");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    listaAgentes[i].checked = true;
+                }
+            }else if (caso == 1) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("MACA");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    listaAgentes[i].checked = true;
+                }
+            } else if (caso == 2) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("CLAU");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    listaAgentes[i].checked = true;
+                }
+            } else if (caso == 3) {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("SAB1");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    listaAgentes[i].checked = true;
+                }
+            } else {
+                deseleccionar();
+                var listaAgentes = document.getElementsByClassName("SAB2");
+                for (var i = 0; i < listaAgentes.length; i++) {
+                    listaAgentes[i].checked = true;
+                }
+            } 
+                
+        }
+
+
+
+
+
+        
+
+
+        
+
+
+        
+
+
+
+
+    
+    
+        
+
+</script>
+
+</body>
+</html>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
